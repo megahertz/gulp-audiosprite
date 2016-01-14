@@ -25,6 +25,7 @@ gulp.task('audiosprite', function() {
 
 ## Options
 Options are tha same as for [audiosprite](https://github.com/tonistiigi/audiosprite/):
+
  Name       | Default           | Description 
 ------------|-------------------|-----------------------------------------------------------
  output     | "sprite"          | Name for the output files.
