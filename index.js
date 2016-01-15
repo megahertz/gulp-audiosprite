@@ -67,7 +67,7 @@ function convertData(data, options, self) {
 
     switch (options.format) {
         case 'howler':
-            data.src = urls;
+            data.urls = urls;
             break;
         case 'createjs':
             data.src = urls[0];
