@@ -1,5 +1,6 @@
 var path = require('path');
 var fs = require('fs');
+var os = require('os');
 
 var through = require('through2');
 var gutil = require('gulp-util');
@@ -67,7 +68,9 @@ function convertData(data, options, self) {
 
     switch (options.format) {
         case 'howler':
+            // for old versions
             data.urls = urls;
+            data.src = urls;
             break;
         case 'createjs':
             data.src = urls[0];
@@ -82,7 +85,7 @@ function convertData(data, options, self) {
 function setDefaults(options) {
     options = options || {};
 
-    var tmp = require('os').tmpDir() || '.';
+    var tmp = os.tmpdir() || '.';
     options.output = tmp + '/' + (options.output ? options.output : 'sprite');
 
     if (options.path) {

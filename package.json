@@ -1,6 +1,6 @@
 {
   "name": "gulp-audiosprite",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "Gulp wrapper for audiosprite, which is ffmpeg wrapper that will take in multiple audio files and combines them into a single file",
   "main": "index.js",
   "scripts": {
@@ -26,9 +26,9 @@
   },
   "homepage": "https://github.com/megahertz/gulp-audiosprite#readme",
   "dependencies": {
-    "audiosprite": "^0.5.0",
-    "gulp-util": "^3.0.7",
-    "through2": "^2.0.0"
+    "audiosprite": "*",
+    "gulp-util": "*",
+    "through2": "*"
   },
   "devDependencies": {
     "gulp": "^3.9.0",
