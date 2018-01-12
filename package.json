@@ -31,14 +31,13 @@
     "through2": "*"
   },
   "devDependencies": {
-    "gulp": "^3.9.0",
-    "gulp-jscs": "^3.0.2",
-    "gulp-jshint": "^2.0.0",
-    "gulp-load-plugins": "^1.2.0",
-    "gulp-mocha": "^2.2.0",
-    "jshint": "^2.9.1-rc3",
-    "jshint-reporter-jscs": "^0.1.0",
-    "mocha": "^2.3.4",
-    "should": "^8.1.1"
+    "gulp": "*",
+    "gulp-jscs": "*",
+    "gulp-jshint": "*",
+    "gulp-mocha": "*",
+    "jshint": "*",
+    "jshint-reporter-jscs": "*",
+    "mocha": "*",
+    "should": "*"
   }
 }
