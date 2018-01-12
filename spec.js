@@ -14,10 +14,7 @@ describe('gulp-audiosprite plugin', function () {
   it('should create a sprite', function (callback) {
     var files = [];
     gulp.src('node_modules/audiosprite/test/sounds/*.*')
-      .pipe(audioSprite({
-        export: 'ogg,mp3',
-        log:    'notice'
-      }))
+      .pipe(audioSprite({ export: 'ogg,mp3' }))
       .pipe(through2.obj(function (file, _, cb) {
         this.push(file);
         files.push(file);
@@ -39,5 +36,14 @@ describe('gulp-audiosprite plugin', function () {
         cb();
         callback();
       }));
+  });
+
+  it('should handle error', function(callback) {
+    gulp.src('./*.*')
+      .pipe(audioSprite({ export: 'ogg,mp3' }))
+      .on('error', function(err) {
+        err.message.should.match(/gulp-audiosprite: Error /);
+        callback();
+      });
   });
 });

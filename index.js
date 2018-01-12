@@ -1,24 +1,21 @@
 'use strict';
 
-var path = require('path');
-var fs   = require('fs');
-var os   = require('os');
+// jshint -W040
 
-var through     = require('through2');
-var gutil       = require('gulp-util');
-var PluginError = gutil.PluginError;
-var audiosprite = require('audiosprite');
+var audioSprite = require('audiosprite');
+var fs          = require('fs');
+var os          = require('os');
+var path        = require('path');
+var through2    = require('through2');
+var Vinyl       = require('vinyl');
 
-
-var PLUGIN_NAME = 'gulp-audiosprite';
 module.exports  = gulpAudioSprite;
 
 
 function gulpAudioSprite(options) {
   var files = [];
-  options   = setDefaults(options);
-  return through.obj(transform, flush);
-
+  options = setDefaults(options);
+  return through2.obj(transform, flush);
 
   function transform(file, enc, callback) {
     if (file.isNull()) {
@@ -26,7 +23,11 @@ function gulpAudioSprite(options) {
     }
 
     if (file.isStream()) {
-      return callback(new PluginError(PLUGIN_NAME, 'Streaming not supported'));
+      this.emit(
+        'error',
+        new Error('gulp-audiosprite: Streaming not supported')
+      );
+      return callback();
     }
 
     files.push(file.path);
@@ -36,19 +37,22 @@ function gulpAudioSprite(options) {
   function flush(callback) {
     //jshint -W040
     var stream = this;
-    audiosprite(files, options, function (err, result) {
+    audioSprite(files, options, function (err, result) {
       if (err) {
-        return callback(new gutil.PluginError(PLUGIN_NAME, err));
+        err.message = 'gulp-audiosprite: ' + err.message;
+        stream.emit('error', err);
+        return callback();
       }
 
       result = convertData(result, options, stream);
 
       var jsonName = (options.output || 'output') + '.json';
-      stream.push(new gutil.File({
+      stream.push(new Vinyl({
         base:     path.dirname(jsonName),
         path:     jsonName,
         contents: new Buffer(JSON.stringify(result, null, 2), 'binary')
       }));
+
       callback();
     });
   }
@@ -58,28 +62,34 @@ function convertData(data, options, stream) {
   var urls = data.urls || data.resources || (data.src ? [data.src] : []) || [];
 
   urls.forEach(function (url) {
-    stream.push(new gutil.File({
+    stream.push(new Vinyl({
       base:     path.dirname(url),
       path:     url,
       contents: fs.createReadStream(url)
     }));
   });
+
   urls = urls.map(function (url) {
     var base = path.basename(url);
     return options._path ? options._path + '/' + base : base;
   });
 
   switch (options.format) {
-    case 'howler':
+    case 'howler': {
       // for old versions
       data.urls = urls;
       data.src  = urls;
       break;
-    case 'createjs':
+    }
+
+    case 'createjs': {
       data.src = urls[0];
       break;
-    default:
+    }
+
+    default: {
       data.resources = urls;
+    }
   }
 
   return data;
@@ -88,7 +98,7 @@ function convertData(data, options, stream) {
 function setDefaults(options) {
   options = options || {};
 
-  var tmp        = os.tmpdir() || '.';
+  var tmp = os.tmpdir() || '.';
   options.output = tmp + '/' + (options.output ? options.output : 'sprite');
 
   if (options.path) {
@@ -109,13 +119,13 @@ function setLogger(options) {
 
   function log(level, text, data) {
     var userLevel = levels.indexOf(options.log || 'info');
-    var logLevel  = levels.indexOf(level);
+    var logLevel = levels.indexOf(level);
 
     if (logLevel < userLevel) {
       return;
     }
 
-    gutil.log(text, data);
+    console.log(text, data);
   }
 
   options.logger = {
