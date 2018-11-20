@@ -1,15 +1,14 @@
 {
   "name": "gulp-audiosprite",
-  "version": "1.0.6",
+  "version": "1.1.0",
   "description": "Gulp wrapper for audiosprite, which is ffmpeg wrapper that will take in multiple audio files and combines them into a single file",
   "main": "index.js",
   "scripts": {
-    "test": "gulp"
+    "lint": "eslint '**/*.js'",
+    "mocha": "mocha 'index.spec.js'",
+    "test": "npm run lint && npm run mocha"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/megahertz/gulp-audiosprite.git"
-  },
+  "repository": "megahertz/gulp-audiosprite",
   "keywords": [
     "gulpplugin",
     "audiosprite",
@@ -21,9 +20,7 @@
   ],
   "author": "Alexey Prokhorov",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/megahertz/gulp-audiosprite/issues"
-  },
+  "bugs": "https://github.com/megahertz/gulp-audiosprite/issues",
   "homepage": "https://github.com/megahertz/gulp-audiosprite#readme",
   "dependencies": {
     "audiosprite": "*",
@@ -31,13 +28,11 @@
     "vinyl": "*"
   },
   "devDependencies": {
+    "chai": "*",
+    "eslint": "*",
+    "eslint-config-airbnb-base": "*",
+    "eslint-plugin-import": "*",
     "gulp": "*",
-    "gulp-jscs": "*",
-    "gulp-jshint": "*",
-    "gulp-mocha": "*",
-    "jshint": "*",
-    "jshint-reporter-jscs": "*",
-    "mocha": "*",
-    "should": "*"
+    "mocha": "*"
   }
 }

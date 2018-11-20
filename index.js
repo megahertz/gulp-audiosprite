@@ -1,7 +1,5 @@
 'use strict';
 
-// jshint -W040
-
 var audioSprite = require('audiosprite');
 var fs          = require('fs');
 var os          = require('os');
@@ -9,8 +7,7 @@ var path        = require('path');
 var through2    = require('through2');
 var Vinyl       = require('vinyl');
 
-module.exports  = gulpAudioSprite;
-
+module.exports = gulpAudioSprite;
 
 function gulpAudioSprite(options) {
   var files = [];
@@ -35,7 +32,6 @@ function gulpAudioSprite(options) {
   }
 
   function flush(callback) {
-    //jshint -W040
     var stream = this;
     audioSprite(files, options, function (err, result) {
       if (err) {
@@ -50,7 +46,7 @@ function gulpAudioSprite(options) {
       stream.push(new Vinyl({
         base:     path.dirname(jsonName),
         path:     jsonName,
-        contents: new Buffer(JSON.stringify(result, null, 2), 'binary')
+        contents: Buffer.from(JSON.stringify(result, null, 2), 'binary')
       }));
 
       callback();
@@ -98,8 +94,7 @@ function convertData(data, options, stream) {
 function setDefaults(options) {
   options = options || {};
 
-  var tmp = os.tmpdir() || '.';
-  options.output = tmp + '/' + (options.output ? options.output : 'sprite');
+  options.output = path.join(os.tmpdir(), options.output || 'sprite');
 
   if (options.path) {
     options._path = options.path;

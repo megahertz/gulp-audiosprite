@@ -1,4 +1,8 @@
 # gulp-audiosprite
+[![Build Status](https://travis-ci.org/megahertz/gulp-audiosprite.svg?branch=master)](https://travis-ci.org/megahertz/gulp-audiosprite)
+[![NPM version](https://badge.fury.io/js/gulp-audiosprite.svg)](https://badge.fury.io/js/gulp-audiosprite)
+[![Dependencies status](https://david-dm.org/megahertz/gulp-audiosprite/status.svg)](https://david-dm.org/megahertz/gulp-audiosprite)
+
 
 ## Installation
 
@@ -6,8 +10,8 @@ Install with [npm](https://npmjs.org/package/gulp-audiosprite):
 
 `npm install --save-dev gulp-audiosprite`
 
-Also you need to [install ffmpeg](http://ffmpeg.org/download.html). ffmpeg should
-be available in a PATH environment variable
+Also you need to [install ffmpeg](http://ffmpeg.org/download.html). ffmpeg
+should be available in a PATH environment variable
 
 ## Usage
 
@@ -15,11 +19,11 @@ be available in a PATH environment variable
 var audiosprite = require('gulp-audiosprite');
 
 gulp.task('audiosprite', function() {
-  gulp.src('./src/sounds/*.wav')
+  return gulp.src('src/sounds/*.wav')
     .pipe(audiosprite({
       format: 'howler'
     }))
-    .pipe(gulp.dest('build/sounds'));
+    .pipe(gulp.dest('dist/sounds'));
 });
 ```
 
