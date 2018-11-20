@@ -46,29 +46,4 @@ describe('gulp-audiosprite plugin', function () {
         callback();
       });
   });
-
-  it('should process large', function (callback) {
-    this.timeout(120000);
-
-    var files = [];
-    return gulp.src('/home/megahertz/Desktop/*.mp3')
-      .pipe(audioSprite({ export: 'ogg' }))
-      .pipe(through2.obj(function (file, _, cb) {
-        console.log(file);
-        this.push(file);
-        files.push(file);
-        cb();
-      }, function (cb) {
-        var oggFile  = files[0];
-        var jsonFile = files[1];
-
-        var json = JSON.parse(jsonFile.contents.toString('utf8'));
-        var oggSize = fs.statSync(oggFile.path).size;
-
-        console.log(json, oggSize + 'B');
-
-        cb();
-        callback();
-      }));
-  });
 });
