@@ -8,6 +8,6 @@ node_js:
 addons:
   apt:
     packages:
-      - ffmpeg
+      - libav-tools
 
 
